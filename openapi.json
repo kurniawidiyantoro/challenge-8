@@ -1,0 +1,307 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OpenAPI Game Suit",
+    "description": "openAPI untuk game suit jepang.",
+    "contact": {
+      "email": "kurnia.develop@gmail.com"
+    },
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "players",
+      "description": "Everything about player"
+    },
+    {
+      "name": "experience",
+      "description": "update experience"
+    }
+  ],
+  "paths": {
+    "/players": {
+      "get": {
+        "tags": [
+          "players"
+        ],
+        "summary": "mendapatkan data player",
+        "description": "mendapatkan data player yang sudah terverifikasi",
+        "operationId": "getPlayers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "players"
+        ],
+        "summary": "menambahkan data player",
+        "description": "menambahkan data player baru",
+        "operationId": "createPlayers",
+        "requestBody": {
+          "description": "menambahkan player baru",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/users"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/players/{id}": {
+      "get": {
+        "tags": [
+          "players"
+        ],
+        "summary": "mendapatkan data player berdasarkan id",
+        "description": "mendapatkan data player berdasarkan parameter id",
+        "operationId": "getPlayerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID player",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "players"
+        ],
+        "summary": "update data player",
+        "description": "update data player berdasarkan parameter id",
+        "operationId": "updatePlayer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID player",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update data player",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateUser"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateUser"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "player not found"
+          },
+          "500": {
+            "description": "failed to update"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Delete player",
+        "description": "delete player berdasarkan id",
+        "operationId": "deletePlayer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull delete player"
+          },
+          "400": {
+            "description": "player not found"
+          }
+        }
+      }
+    },
+    "/players/exp/{id}": {
+      "post": {
+        "tags": [
+          "experience"
+        ],
+        "summary": "Update experience",
+        "description": "Update experience dari player",
+        "operationId": "updateExperience",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID player",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update exp player",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateExp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "failed to update"
+          },
+          "404": {
+            "description": "player not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "users": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "experience": {
+            "type": "integer"
+          },
+          "lvl": {
+            "type": "integer"
+          }
+        }
+      },
+      "updateUser": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "updateExp": {
+        "type": "object",
+        "properties": {
+          "exp": {
+            "type": "integer"
+          }
+        }
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "email or username and password cannot be empty"
+          }
+        }
+      }
+    }
+  }
+}
